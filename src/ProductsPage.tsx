@@ -130,7 +130,7 @@ const ProductsPage: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div className="container mt-4" style={{ minHeight: "100vh" }}>
       <Row className="mb-1 align-items-center">
         <Col md={4}>
           <Form.Group controlId="formSearch">

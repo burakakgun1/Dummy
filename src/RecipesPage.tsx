@@ -45,7 +45,7 @@ const RecipesPage: React.FC = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       <Form.Group controlId="formSearch" className="d-flex justify-content-center">
         <Form.Control
           className="my-3"

@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center">
+        <div className="mt-4 d-flex flex-column justify-content-center align-items-center">
             <h2>Login</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicUsername">
