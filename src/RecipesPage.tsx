@@ -10,10 +10,13 @@ const RecipesPage: React.FC = () => {
   const recipesState = useSelector((state: RootState) => state.recipes);
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
 
   useEffect(() => {
-    dispatch(fetchRecipes());
-  }, [dispatch]);
+    dispatch(fetchRecipes({ searchTerm, sortOrder })); 
+  }, [dispatch, searchTerm, sortOrder]);
+
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = recipesState.recipes.slice(
@@ -26,6 +29,10 @@ const RecipesPage: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   const handleRecordsPerPageChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -33,8 +40,35 @@ const RecipesPage: React.FC = () => {
     setCurrentPage(1);
   };
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOrder(e.target.value as 'asc' | 'desc' | null);
+  };
+
   return (
     <div className="container mt-5">
+      <Form.Group controlId="formSearch" className="d-flex justify-content-center">
+        <Form.Control
+          className="my-3"
+          type="text"
+          placeholder="Search recipes"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          style={{ width: "200px", display: "inline-block" }}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formSort" className="d-flex justify-content-center mb-3">
+        <Form.Select
+          value={sortOrder || ''}
+          onChange={handleSortChange}
+          style={{ width: "200px", display: "inline-block" }}
+        >
+          <option value="">Varsayılan</option>
+          <option value="asc">Artan</option>
+          <option value="desc">Azalan</option>
+        </Form.Select>
+      </Form.Group>
+
       <Table bordered hover responsive className="shadow-sm">
         <thead className="bg-dark text-white">
           <tr>
@@ -55,12 +89,10 @@ const RecipesPage: React.FC = () => {
           ))}
         </tbody>
       </Table>
+
       <Row className="mb-3">
         <Col>
-          <Form.Group
-            controlId="recordsPerPage"
-            className="d-flex align-items-center"
-          >
+          <Form.Group controlId="recordsPerPage" className="d-flex align-items-center">
             <Form.Select
               value={recordsPerPage}
               onChange={handleRecordsPerPageChange}

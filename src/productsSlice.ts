@@ -97,6 +97,7 @@ export const updateProduct = createAsyncThunk<
     return rejectWithValue({
       data: axiosError.response.data,
       status: axiosError.response.status,
+      
     });
   }
 });

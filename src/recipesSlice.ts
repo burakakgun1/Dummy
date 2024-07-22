@@ -26,13 +26,23 @@ const initialState: RecipesState = {
   error: null,
 };
 
+interface FetchRecipesArgs {
+  searchTerm?: string;
+  sortOrder?: 'asc' | 'desc' | null;
+}
+
 export const fetchRecipes = createAsyncThunk<
   FetchRecipesResponse,
-  void,
+  FetchRecipesArgs,
   { rejectValue: any }
->("recipes/fetchRecipes", async (_, { rejectWithValue }) => {
+>("recipes/fetchRecipes", async ({ searchTerm, sortOrder }, { rejectWithValue }) => {
   try {
-    const response = await api.get<{ recipes: Recipe[] }>("/recipes");
+    const response = await api.get<{ recipes: Recipe[] }>(
+      searchTerm 
+        ? `/recipes/search?q=${searchTerm}${sortOrder ? `&sortBy=name&order=${sortOrder}` : ''}`
+        : `/recipes${sortOrder ? `?sortBy=name&order=${sortOrder}` : ''}`
+    );
+    console.log(searchTerm);
     return { recipes: response.data.recipes, status: response.status };
   } catch (error: any) {
     const axiosError = error as AxiosError;
