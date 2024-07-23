@@ -8,17 +8,25 @@ export interface Product {
   price: number;
 }
 
-interface FetchProductsResponse {
+export interface FetchProductsResponse {
   products: Product[];
   status: number;
   total: number;
 }
 
-interface DeleteProductResponse {
+export interface DeleteProductResponse {
   productId: number;
   status: number;
 }
-
+export interface FetchProductsParams {
+  page: number;
+  page_size: number;
+  new_product_title: string;
+  update_product_title: string;
+  update_product_price: string;
+  search_term: string;
+  new_product_price: string;
+}
 export interface ProductsState {
   products: Product[];
   total: number;
@@ -28,7 +36,7 @@ export interface ProductsState {
 
 const initialState: ProductsState = {
   products: [],
-  total:0,
+  total: 0,
   status: "idle",
   error: null,
 };
@@ -53,17 +61,18 @@ export const fetchProducts = createAsyncThunk<
         total: response.data.total,
         status: response.status,
       };
-  } catch (error: any) {
-    const axiosError = error as AxiosError;
-    if (!axiosError.response) {
-      throw error;
+    } catch (error: any) {
+      const axiosError = error as AxiosError;
+      if (!axiosError.response) {
+        throw error;
+      }
+      return rejectWithValue({
+        data: axiosError.response.data,
+        status: axiosError.response.status,
+      });
     }
-    return rejectWithValue({
-      data: axiosError.response.data,
-      status: axiosError.response.status,
-    });
   }
-});
+);
 
 export const addProduct = createAsyncThunk<
   Product,
@@ -109,7 +118,6 @@ export const updateProduct = createAsyncThunk<
     return rejectWithValue({
       data: axiosError.response.data,
       status: axiosError.response.status,
-      
     });
   }
 });

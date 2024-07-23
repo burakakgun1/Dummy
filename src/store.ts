@@ -4,12 +4,14 @@ import recipesReducer from "./recipesSlice";
 import productsReducer from "./productsSlice";
 import { notificationMiddleware } from "./myMiddleware";
 import { useDispatch } from "react-redux";
+import cartReducer from "./cartSlice";
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
     recipes: recipesReducer,
     products: productsReducer,
+    cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(notificationMiddleware),

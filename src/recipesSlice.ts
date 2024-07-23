@@ -39,23 +39,27 @@ export const fetchRecipes = createAsyncThunk<
   FetchRecipesResponse,
   FetchRecipesArgs,
   { rejectValue: any }
->("recipes/fetchRecipes", async ({ searchTerm, sortOrder, limit, skip }, { rejectWithValue }) => {
-  try {
-    const response = await api.get<{ recipes: Recipe[], total: number }>(
-      `/recipes?limit=${limit}&skip=${skip}${searchTerm ? `&q=${searchTerm}` : ''}${sortOrder ? `&sortBy=name&order=${sortOrder}` : ''}`
-    );
-    return { recipes: response.data.recipes, total: response.data.total };
-  } catch (error: any) {
-    const axiosError = error as AxiosError;
-    if (!axiosError.response) {
-      throw error;
+>(
+  "recipes/fetchRecipes",
+  async ({ searchTerm, sortOrder, limit, skip }, { rejectWithValue }) => {
+    try {
+      const response = await api.get<{ recipes: Recipe[], total: number }>(
+        `/recipes/search?q=${searchTerm || ''}&limit=${limit}&skip=${skip}${sortOrder ? `&sortBy=name&order=${sortOrder}` : ''}`
+      );
+      
+      return { recipes: response.data.recipes, total: response.data.total, status: response.status, };
+    } catch (error: any) {
+      const axiosError = error as AxiosError;
+      if (!axiosError.response) {
+        throw error;
+      }
+      return rejectWithValue({
+        data: axiosError.response.data,
+        status: axiosError.response.status,
+      });
     }
-    return rejectWithValue({
-      data: axiosError.response.data,
-      status: axiosError.response.status,
-    });
   }
-});
+);
 
 const recipesSlice = createSlice({
   name: "recipes",

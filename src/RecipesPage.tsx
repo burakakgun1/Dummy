@@ -29,9 +29,7 @@ const RecipesPage: React.FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleRecordsPerPageChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleRecordsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRecordsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1);
   };
@@ -42,28 +40,30 @@ const RecipesPage: React.FC = () => {
 
   return (
     <div className="container mt-4">
-      <Form.Group controlId="formSearch" className="d-flex justify-content-center">
-        <Form.Control
-          className="my-3"
-          type="text"
-          placeholder="Search recipes"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{ width: "200px", display: "inline-block" }}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formSort" className="d-flex justify-content-center mb-3">
-        <Form.Select
-          value={sortOrder || ''}
-          onChange={handleSortChange}
-          style={{ width: "200px", display: "inline-block" }}
-        >
-          <option value="">Varsayılan</option>
-          <option value="asc">Artan</option>
-          <option value="desc">Azalan</option>
-        </Form.Select>
-      </Form.Group>
+      <Row className="mb-3 align-items-center">
+        <Col md={4}>
+          <Form.Group controlId="formSearch">
+            <Form.Control
+              type="text"
+              placeholder="Search recipes"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col md={4}>
+          <Form.Group controlId="formSort">
+            <Form.Select
+              value={sortOrder || ''}
+              onChange={handleSortChange}
+            >
+              <option value="">Default</option>
+              <option value="asc">Artan</option>
+              <option value="desc">Azalan</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
 
       <Table bordered hover responsive className="shadow-sm">
         <thead className="bg-dark text-white">
@@ -86,33 +86,75 @@ const RecipesPage: React.FC = () => {
         </tbody>
       </Table>
 
-      <Row className="mb-3">
-        <Col>
-          <Form.Group controlId="recordsPerPage" className="d-flex align-items-center">
-            <Form.Select
-              value={recordsPerPage}
-              onChange={handleRecordsPerPageChange}
-              style={{ width: "100px", display: "inline-block" }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col className="d-flex justify-content-end">
+      <Row className="mt-3">
+        <Col md={8}>
           <Pagination>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
+            <Pagination.First
+              onClick={() => handlePageChange(1)}
+            />
+            <Pagination.Prev
+              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+            />
+
+            {currentPage !== 1 && totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(1)}>
+                {1}
               </Pagination.Item>
-            ))}
+            )}
+
+            {currentPage > 4 && <Pagination.Ellipsis />}
+
+            {currentPage > 3 && (
+              <Pagination.Item onClick={() => handlePageChange(currentPage - 2)}>
+                {currentPage - 2}
+              </Pagination.Item>
+            )}
+            {currentPage > 2 && (
+              <Pagination.Item onClick={() => handlePageChange(currentPage - 1)}>
+                {currentPage - 1}
+              </Pagination.Item>
+            )}
+
+            <Pagination.Item active>{currentPage}</Pagination.Item>
+
+            {currentPage < totalPages - 1 && (
+              <Pagination.Item onClick={() => handlePageChange(currentPage + 1)}>
+                {currentPage + 1}
+              </Pagination.Item>
+            )}
+            {currentPage < totalPages - 2 && (
+              <Pagination.Item onClick={() => handlePageChange(currentPage + 2)}>
+                {currentPage + 2}
+              </Pagination.Item>
+            )}
+
+            {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+
+            {currentPage !== totalPages && totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                {totalPages}
+              </Pagination.Item>
+            )}
+
+            <Pagination.Next
+              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+            />
+            <Pagination.Last
+              onClick={() => handlePageChange(totalPages)}
+            />
           </Pagination>
+        </Col>
+        <Col md={4} className="text-end">
+          <Form.Select
+            value={recordsPerPage}
+            onChange={handleRecordsPerPageChange}
+            className="d-inline-block w-auto"
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </Form.Select>
         </Col>
       </Row>
     </div>

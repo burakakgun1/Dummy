@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./login";
 import MainPage from "./mainpage";
-import ProductsPage from "./ProductsPage";
+import ProductsList from "./pages/ProductsList";
 import RecipesPage from "./RecipesPage";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/mainpage" element={<MainPage />} />
-        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products" element={<ProductsList />} />
         <Route path="/recipes" element={<RecipesPage />} />
       </Routes>
       <ToastContainer 
