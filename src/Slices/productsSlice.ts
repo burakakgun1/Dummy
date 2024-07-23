@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import api from "./axiosconfig";
+import api from "../configs/axiosconfig";
 
 export interface Product {
   id: number;

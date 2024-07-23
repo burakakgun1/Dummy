@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import api from "./axiosconfig";
-import { AppDispatch } from "./store";
+import api from "../configs/axiosconfig";
+import { AppDispatch } from "../store";
 
 export interface LoginState {
   isLoggedIn: boolean;

@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "./store";
-import { removeFromCart } from "./cartSlice";
+import { removeFromCart } from "./Slices/cartSlice";
 import { Button, Table } from "react-bootstrap";
-import { Product } from "./productsSlice";
+import { Product } from "./Slices/productsSlice";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "./loginSlice";
-import recipesReducer from "./recipesSlice";
-import productsReducer from "./productsSlice";
+import loginReducer from "./Slices/loginSlice";
+import recipesReducer from "./Slices/recipesSlice";
+import productsReducer from "./Slices/productsSlice";
 import { notificationMiddleware } from "./myMiddleware";
 import { useDispatch } from "react-redux";
-import cartReducer from "./cartSlice";
+import cartReducer from "./Slices/cartSlice";
 
 const store = configureStore({
   reducer: {

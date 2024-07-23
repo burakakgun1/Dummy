@@ -9,8 +9,8 @@ import {
   FetchProductsParams,
   Product,
   updateProduct,
-} from "../productsSlice";
-import { addToCart } from "../cartSlice";
+} from "../Slices/productsSlice";
+import { addToCart } from "../Slices/cartSlice";
 
 export const useProducts = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from './store';
-import { loginUser } from './loginSlice';
+import { loginUser } from './Slices/loginSlice';
 
 interface LoginForm {
     username: string;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Pagination, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store";
-import { fetchRecipes } from "./recipesSlice";
+import { fetchRecipes } from "./Slices/recipesSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const RecipesPage: React.FC = () => {
