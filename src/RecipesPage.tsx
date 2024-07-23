@@ -13,17 +13,13 @@ const RecipesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
 
-  useEffect(() => {
-    dispatch(fetchRecipes({ searchTerm, sortOrder })); 
-  }, [dispatch, searchTerm, sortOrder]);
+  const skip = (currentPage - 1) * recordsPerPage;
 
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = recipesState.recipes.slice(
-    indexOfFirstRecord,
-    indexOfLastRecord
-  );
-  const totalPages = Math.ceil(recipesState.recipes.length / recordsPerPage);
+  useEffect(() => {
+    dispatch(fetchRecipes({ searchTerm, sortOrder, limit: recordsPerPage, skip }));
+  }, [dispatch, searchTerm, sortOrder, recordsPerPage, skip]);
+
+  const totalPages = Math.ceil(recipesState.total / recordsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -79,7 +75,7 @@ const RecipesPage: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {currentRecords.map((recipe) => (
+          {recipesState.recipes.map((recipe) => (
             <tr key={recipe.id} className="align-middle">
               <td>{recipe.id}</td>
               <td>{recipe.name}</td>

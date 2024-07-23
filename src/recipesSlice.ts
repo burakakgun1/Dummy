@@ -11,17 +11,19 @@ export interface Recipe {
 
 interface FetchRecipesResponse {
   recipes: Recipe[];
-  status: number;
+  total: number; 
 }
 
 export interface RecipesState {
   recipes: Recipe[];
+  total: number;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: RecipesState = {
   recipes: [],
+  total: 0,
   status: "idle",
   error: null,
 };
@@ -29,21 +31,20 @@ const initialState: RecipesState = {
 interface FetchRecipesArgs {
   searchTerm?: string;
   sortOrder?: 'asc' | 'desc' | null;
+  limit: number;
+  skip: number;
 }
 
 export const fetchRecipes = createAsyncThunk<
   FetchRecipesResponse,
   FetchRecipesArgs,
   { rejectValue: any }
->("recipes/fetchRecipes", async ({ searchTerm, sortOrder }, { rejectWithValue }) => {
+>("recipes/fetchRecipes", async ({ searchTerm, sortOrder, limit, skip }, { rejectWithValue }) => {
   try {
-    const response = await api.get<{ recipes: Recipe[] }>(
-      searchTerm 
-        ? `/recipes/search?q=${searchTerm}${sortOrder ? `&sortBy=name&order=${sortOrder}` : ''}`
-        : `/recipes${sortOrder ? `?sortBy=name&order=${sortOrder}` : ''}`
+    const response = await api.get<{ recipes: Recipe[], total: number }>(
+      `/recipes?limit=${limit}&skip=${skip}${searchTerm ? `&q=${searchTerm}` : ''}${sortOrder ? `&sortBy=name&order=${sortOrder}` : ''}`
     );
-    console.log(searchTerm);
-    return { recipes: response.data.recipes, status: response.status };
+    return { recipes: response.data.recipes, total: response.data.total };
   } catch (error: any) {
     const axiosError = error as AxiosError;
     if (!axiosError.response) {
@@ -68,6 +69,7 @@ const recipesSlice = createSlice({
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.recipes = action.payload.recipes;
+        state.total = action.payload.total;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.status = "failed";

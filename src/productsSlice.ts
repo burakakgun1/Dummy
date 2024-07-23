@@ -11,6 +11,7 @@ export interface Product {
 interface FetchProductsResponse {
   products: Product[];
   status: number;
+  total: number;
 }
 
 interface DeleteProductResponse {
@@ -20,27 +21,38 @@ interface DeleteProductResponse {
 
 export interface ProductsState {
   products: Product[];
+  total: number;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: ProductsState = {
   products: [],
+  total:0,
   status: "idle",
   error: null,
 };
 
 export const fetchProducts = createAsyncThunk<
   FetchProductsResponse,
-  string | undefined,
+  { searchTerm: string; currentPage: number; recordsPerPage: number },
   { rejectValue: any }
->("products/fetchProducts", async (searchTerm, { rejectWithValue }) => {
-  try {
-    const response = await api.get<{ products: Product[] }>(
-      searchTerm ? `/products/search?q=${searchTerm}` : "/products"
-    );
+>(
+  "products/fetchProducts",
+  async ({ searchTerm, currentPage, recordsPerPage }, { rejectWithValue }) => {
+    try {
+      const skip = (currentPage - 1) * recordsPerPage;
+      const response = await api.get<{ products: Product[]; total: number }>(
+        searchTerm
+          ? `/products/search?q=${searchTerm}&limit=${recordsPerPage}&skip=${skip}`
+          : `/products?limit=${recordsPerPage}&skip=${skip}`
+      );
 
-    return { products: response.data.products, status: response.status };
+      return {
+        products: response.data.products,
+        total: response.data.total,
+        status: response.status,
+      };
   } catch (error: any) {
     const axiosError = error as AxiosError;
     if (!axiosError.response) {
@@ -137,6 +149,7 @@ export const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.products = action.payload.products;
+        state.total = action.payload.total;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";

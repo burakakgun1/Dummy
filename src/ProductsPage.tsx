@@ -18,14 +18,16 @@ import {
   Product,
 } from "./productsSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector((state: RootState) => state.products);
+  const { products, total, status, error } = useSelector(
+    (state: RootState) => state.products
+  );
   const [newProductTitle, setNewProductTitle] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProductId, setUpdateProductId] = useState<number | null>(null);
   const [updateProductTitle, setUpdateProductTitle] = useState("");
@@ -35,13 +37,8 @@ const ProductsPage: React.FC = () => {
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(fetchProducts(searchTerm));
-  }, [dispatch, searchTerm]);
-
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = products.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(products.length / recordsPerPage);
+    dispatch(fetchProducts({ searchTerm, currentPage, recordsPerPage }));
+  }, [dispatch, searchTerm, currentPage, recordsPerPage]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -67,17 +64,11 @@ const ProductsPage: React.FC = () => {
           price: parseFloat(newProductPrice),
         })
       ).unwrap();
-      setShowSuccessMessage(true);
+      toast.success("Product added successfully!");
       setNewProductTitle("");
       setNewProductPrice("");
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 5000);
     } catch (error) {
-      setShowErrorMessage(true);
-      setTimeout(() => {
-        setShowErrorMessage(false);
-      }, 5000);
+      toast.error("Error adding product!");
       console.error("Error adding product:", error);
     }
   };
@@ -99,16 +90,10 @@ const ProductsPage: React.FC = () => {
           price: parseFloat(updateProductPrice),
         })
       ).unwrap();
-      setShowSuccessMessage(true);
+      toast.success("Product updated successfully!");
       setShowUpdateModal(false);
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 5000);
     } catch (error) {
-      setShowErrorMessage(true);
-      setTimeout(() => {
-        setShowErrorMessage(false);
-      }, 5000);
+      toast.error("Error updating product!");
       console.error("Error updating product:", error);
     }
   };
@@ -116,18 +101,14 @@ const ProductsPage: React.FC = () => {
   const handleDeleteProduct = async (productId: number) => {
     try {
       await dispatch(deleteProduct(productId)).unwrap();
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 5000);
+      toast.success("Product deleted successfully!");
     } catch (error) {
-      setShowErrorMessage(true);
-      setTimeout(() => {
-        setShowErrorMessage(false);
-      }, 5000);
+      toast.error("Error deleting product!");
       console.error("Error deleting product:", error);
     }
   };
+
+  const totalPages = Math.ceil(total / recordsPerPage);
 
   return (
     <div className="container mt-4" style={{ minHeight: "100vh" }}>
@@ -179,95 +160,11 @@ const ProductsPage: React.FC = () => {
         </Col>
       </Row>
 
-      {showSuccessMessage && (
-        <div
-          style={{
-            position: "fixed",
-            top: 30,
-            right: 30,
-            backgroundColor: "green",
-            padding: 10,
-            borderRadius: 5,
-            color: "white",
-          }}
-        >
-          Operation completed successfully!
-        </div>
-      )}
+      {status === "loading" && <div>Loading...</div>}
+      {status === "failed" && <div>Error: {error}</div>}
 
-      {showErrorMessage && (
-        <div
-          style={{
-            position: "fixed",
-            top: 30,
-            right: 30,
-            backgroundColor: "red",
-            padding: 10,
-            borderRadius: 5,
-            color: "white",
-          }}
-        >
-          Error!
-        </div>
-      )}
-
-      <Modal
-        show={showUpdateModal}
-        onHide={() => setShowUpdateModal(false)}
-        centered
-      >
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formUpdateProductTitle">
-              <Form.Label>Product Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter product title"
-                value={updateProductTitle}
-                onChange={(e) => setUpdateProductTitle(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formUpdateProductPrice">
-              <Form.Label>Product Price</Form.Label>
-              <Form.Control
-                type="number"
-                step="0.01"
-                placeholder="Enter product price"
-                value={updateProductPrice}
-                onChange={(e) => setUpdateProductPrice(e.target.value)}
-                required
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setShowUpdateModal(false)}
-            className="btn-sm"
-          >
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleUpdateProduct}
-            className="btn-sm"
-          >
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Table
-        bordered
-        hover
-        responsive
-        className="shadow-sm mt-4"
-        style={{ backgroundColor: "white" }}
-      >
-        <thead className="bg-dark text-white">
+      <Table striped bordered hover>
+        <thead>
           <tr>
             <th>ID</th>
             <th>Title</th>
@@ -276,15 +173,14 @@ const ProductsPage: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {currentRecords.map((product) => (
-            <tr key={product.id} className="align-middle">
+          {products.map((product) => (
+            <tr key={product.id}>
               <td>{product.id}</td>
               <td>{product.title}</td>
-              <td>${product.price.toFixed(2)}</td>
+              <td>${product.price}</td>
               <td>
                 <Button
                   variant="info"
-                  size="sm"
                   onClick={() => openUpdateModal(product)}
                   className="btn-sm me-2"
                 >
@@ -292,7 +188,6 @@ const ProductsPage: React.FC = () => {
                 </Button>
                 <Button
                   variant="danger"
-                  size="sm"
                   onClick={() => handleDeleteProduct(product.id)}
                   className="btn-sm"
                 >
@@ -304,38 +199,119 @@ const ProductsPage: React.FC = () => {
         </tbody>
       </Table>
 
-      <Row className="mb-3">
-        <Col>
-          <Form.Group
-            controlId="recordsPerPage"
-            className="d-flex align-items-center"
-          >
-            <Form.Select
-              value={recordsPerPage}
-              onChange={handleRecordsPerPageChange}
-              style={{ width: "100px", display: "inline-block" }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col className="d-flex justify-content-end">
+      <Row className="mt-2">
+        <Col md={8}>
           <Pagination>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
+            <Pagination.First onClick={() => handlePageChange(1)} />
+            <Pagination.Prev
+              onClick={() => handlePageChange(currentPage - 1)}
+            />
+
+            {currentPage !== 1 && totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(1)}>
+                {1}
               </Pagination.Item>
-            ))}
+            )}
+
+            {currentPage > 4 && <Pagination.Ellipsis />}
+
+            {currentPage > 3 && (
+              <Pagination.Item
+                onClick={() => handlePageChange(currentPage - 2)}
+              >
+                {currentPage - 2}
+              </Pagination.Item>
+            )}
+            {currentPage > 2 && (
+              <Pagination.Item
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                {currentPage - 1}
+              </Pagination.Item>
+            )}
+
+            <Pagination.Item active>{currentPage}</Pagination.Item>
+
+            {currentPage < totalPages - 1 && (
+              <Pagination.Item
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                {currentPage + 1}
+              </Pagination.Item>
+            )}
+            {currentPage < totalPages - 2 && (
+              <Pagination.Item
+                onClick={() => handlePageChange(currentPage + 2)}
+              >
+                {currentPage + 2}
+              </Pagination.Item>
+            )}
+
+            {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+
+            {currentPage !== totalPages && totalPages > 1 && (
+              <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                {totalPages}
+              </Pagination.Item>
+            )}
+
+            <Pagination.Next
+              onClick={() => handlePageChange(currentPage + 1)}
+            />
+            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
           </Pagination>
         </Col>
+        <Col md={4} className="text-end">
+          <Form.Select
+            value={recordsPerPage}
+            onChange={handleRecordsPerPageChange}
+            className="d-inline-block w-auto"
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </Form.Select>
+        </Col>
       </Row>
+
+      <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="formUpdateProductTitle">
+            <Form.Label>Product Title</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter product title"
+              value={updateProductTitle}
+              onChange={(e) => setUpdateProductTitle(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="formUpdateProductPrice" className="mt-2">
+            <Form.Label>Product Price</Form.Label>
+            <Form.Control
+              type="number"
+              step="0.01"
+              placeholder="Enter product price"
+              value={updateProductPrice}
+              onChange={(e) => setUpdateProductPrice(e.target.value)}
+              required
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleUpdateProduct}>
+            Update Product
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      
     </div>
   );
 };
