@@ -46,9 +46,7 @@ export const useProducts = () => {
     );
   }, [dispatch, filters.search_term, filters.page, filters.page_size]);
 
-  useEffect(() => {
-    setFilters(initialState);
-  }, [filters.page_size]);
+  
   const handleRecordsPerPageChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {

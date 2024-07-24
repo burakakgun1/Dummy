@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "./Slices/loginSlice";
 import recipesReducer from "./Slices/recipesSlice";
 import productsReducer from "./Slices/productsSlice";
-import { notificationMiddleware } from "./myMiddleware";
+import { notificationMiddleware } from "./middlewares/myMiddleware";
 import { useDispatch } from "react-redux";
 import cartReducer from "./Slices/cartSlice";
 

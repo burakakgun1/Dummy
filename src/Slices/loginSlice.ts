@@ -16,9 +16,9 @@ const initialState: LoginState = {
 };
 
 export const login = createAsyncThunk<
-  any,
+  { data: any; status: number },
   { username: string; password: string },
-  { rejectValue: any }
+  { rejectValue: { data: any; status: number } }
 >("user/login", async (formData, { rejectWithValue }) => {
   try {
     const response = await api.post("/auth/login", formData, {
@@ -33,8 +33,8 @@ export const login = createAsyncThunk<
       throw error;
     }
     return rejectWithValue({
-      data: error.response.data,
-      status: error.response.status,
+      data: axiosError.response.data,
+      status: axiosError.response.status,
     });
   }
 });
@@ -85,6 +85,8 @@ export const loginUser =
       console.error("Login error:", error);
       dispatch(setError((error as Error).message ?? "Bir hata oluştu"));
       throw error;
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

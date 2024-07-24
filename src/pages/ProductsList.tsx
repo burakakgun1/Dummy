@@ -1,4 +1,3 @@
-// components/ProductsPage.tsx
 import React from "react";
 import {
   Table,
@@ -11,15 +10,16 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-import CartPage from "../CartPage";
 import { useProducts } from "../hooks/useProducts";
+import CartList from "./CartList";
 
 const ProductsList: React.FC = () => {
   const {
     productsData: { products, total, status, error },
     showUpdateModal,
-    setShowUpdateModal,
+    filters,
     showCartModal,
+    setShowUpdateModal,
     setShowCartModal,
     handleRecordsPerPageChange,
     handleSearchChange,
@@ -28,7 +28,6 @@ const ProductsList: React.FC = () => {
     handleUpdateProduct,
     handleDeleteProduct,
     handleAddToCart,
-    filters,
     updateFilter,
   } = useProducts();
 
@@ -81,7 +80,9 @@ const ProductsList: React.FC = () => {
                 step="0.01"
                 placeholder="Enter product price"
                 value={filters.new_product_price}
-                onChange={(e) => updateFilter("new_product_price", e.target.value)}
+                onChange={(e) =>
+                  updateFilter("new_product_price", e.target.value)
+                }
                 required
               />
             </Form.Group>
@@ -229,7 +230,9 @@ const ProductsList: React.FC = () => {
             <Form.Control
               type="text"
               value={filters.update_product_title}
-              onChange={(e) => updateFilter("update_product_title", e.target.value)}
+              onChange={(e) =>
+                updateFilter("update_product_title", e.target.value)
+              }
             />
           </Form.Group>
           <Form.Group controlId="formUpdateProductPrice" className="mb-3">
@@ -238,7 +241,9 @@ const ProductsList: React.FC = () => {
               type="number"
               step="0.01"
               value={filters.update_product_price}
-              onChange={(e) => updateFilter("update_product_price", e.target.value)}
+              onChange={(e) =>
+                updateFilter("update_product_price", e.target.value)
+              }
             />
           </Form.Group>
         </Modal.Body>
@@ -257,7 +262,7 @@ const ProductsList: React.FC = () => {
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CartPage />
+          <CartList />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowCartModal(false)}>

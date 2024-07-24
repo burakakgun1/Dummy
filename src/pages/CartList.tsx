@@ -1,17 +1,9 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "./store";
-import { removeFromCart } from "./Slices/cartSlice";
 import { Button, Table } from "react-bootstrap";
-import { Product } from "./Slices/productsSlice";
+import { Product } from "../Slices/productsSlice";
+import { useCart } from "../hooks/useCart";
 
-const CartPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-
-  const handleRemoveFromCart = (id: number) => {
-    dispatch(removeFromCart(id));
-  };
+const CartList: React.FC = () => {
+  const { handleRemoveFromCart, cartItems } = useCart();
 
   return (
     <div className="container mt-4">
@@ -28,7 +20,9 @@ const CartPage: React.FC = () => {
         <tbody>
           {cartItems.length === 0 ? (
             <tr>
-              <td colSpan={4} className="text-center">Your cart is empty</td>
+              <td colSpan={4} className="text-center">
+                Your cart is empty
+              </td>
             </tr>
           ) : (
             cartItems.map((item: Product) => (
@@ -53,5 +47,4 @@ const CartPage: React.FC = () => {
     </div>
   );
 };
-
-export default CartPage;
+export default CartList;
