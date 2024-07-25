@@ -1,5 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import { useCart } from "../hooks/useCart";
+import { FaTrash } from "react-icons/fa";
 
 const CartList: React.FC = () => {
   const {
@@ -7,14 +8,14 @@ const CartList: React.FC = () => {
     handleRemoveFromCart,
     cartItems,
     calculateTotalPrice,
+    handleDeleteFromCart,
   } = useCart();
 
   return (
     <div className="container mt-4">
       <Table striped bordered hover>
         <thead>
-          <tr>
-            <th>ID</th>
+          <tr className="text-center min-width 100vh">
             <th>Title</th>
             <th>Price</th>
             <th>Quantity</th>
@@ -32,7 +33,6 @@ const CartList: React.FC = () => {
           ) : (
             cartItems.map((item) => (
               <tr key={item.id}>
-                <td>{item.id}</td>
                 <td>{item.title}</td>
                 <td>${item.price}</td>
                 <td>{item.quantity}</td>
@@ -41,14 +41,24 @@ const CartList: React.FC = () => {
                   <Button
                     onClick={() => handleAddToCart(item)}
                     className="btn-sm "
+                    variant="outline-primary"
                   >
                     +
                   </Button>
                   <Button
                     onClick={() => handleRemoveFromCart(item.id)}
                     className="btn-sm"
+                    variant="outline-primary"
                   >
                     -
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    onClick={() => handleDeleteFromCart(item.id)}
+                    className="btn-sm btn-danger"
+                  >
+                    <FaTrash />
                   </Button>
                 </td>
               </tr>

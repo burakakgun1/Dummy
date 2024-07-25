@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../Slices/cartSlice";
+import { addToCart, deleteFromCart, removeFromCart } from "../Slices/cartSlice";
 import { AppDispatch, RootState } from "../store";
 import { Product } from "../Slices/productsSlice";
 
@@ -14,11 +14,14 @@ export const useCart = () => {
   const handleRemoveFromCart = (id: number) => {
     dispatch(removeFromCart(id));
   };
+  const handleDeleteFromCart = (id: number) => {
+    dispatch(deleteFromCart(id));
+  };
 
 
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  return { cartItems, handleAddToCart, handleRemoveFromCart,calculateTotalPrice };
+  return { cartItems, handleAddToCart, handleRemoveFromCart,calculateTotalPrice,handleDeleteFromCart };
 };

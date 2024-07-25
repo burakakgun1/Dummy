@@ -49,7 +49,7 @@ const ProductsList: React.FC = () => {
             variant="primary"
             onClick={() => updateFilter("show_cart_modal", true)}
           >
-            SEPET
+            Shopping Cart
           </Button>
         </Col>
         <Col md={7}>
@@ -267,7 +267,7 @@ const ProductsList: React.FC = () => {
 
       <Modal show={filters.show_cart_modal} onHide={() => updateFilter("show_cart_modal",false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Cart</Modal.Title>
+          <Modal.Title>Shopping Cart</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CartList />
