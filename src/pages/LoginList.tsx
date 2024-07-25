@@ -9,7 +9,7 @@ const Login: React.FC = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     await handleSubmit(event);
-    navigate('/mainpage');
+    navigate("/mainpage");
   };
 
   return (

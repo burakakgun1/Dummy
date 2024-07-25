@@ -6,7 +6,7 @@ export interface Product {
   id: number;
   title: string;
   price: number;
-  images: string[];  
+  images: string[];
 }
 
 export interface FetchProductsResponse {
@@ -60,7 +60,7 @@ export const fetchProducts = createAsyncThunk<
           ? `/products/search?q=${searchTerm}&limit=${recordsPerPage}&skip=${skip}`
           : `/products?limit=${recordsPerPage}&skip=${skip}`
       );
-      
+
       return {
         products: response.data.products,
         total: response.data.total,
@@ -136,6 +136,7 @@ export const deleteProduct = createAsyncThunk<
     const response = await api.delete<DeleteProductResponse>(
       `/products/${productId}`
     );
+
     return { productId, status: response.status };
   } catch (error: any) {
     const axiosError = error as AxiosError;

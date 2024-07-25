@@ -7,7 +7,7 @@ import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 export const useRecipes = () => {
   const dispatch = useDispatch<AppDispatch>();
   const recipesState = useSelector((state: RootState) => state.recipes);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
 
   const initialState: FetchRecipesParams = {
     page: 1,
@@ -25,43 +25,46 @@ export const useRecipes = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchRecipes({ 
-      searchTerm: filters.search_term, 
-      sortOrder, 
-      sortBy: filters.sort_by,
-      currentPage: filters.page, 
-      recordsPerPage: filters.page_size 
-    }));
+    dispatch(
+      fetchRecipes({
+        searchTerm: filters.search_term,
+        sortOrder,
+        sortBy: filters.sort_by,
+        currentPage: filters.page,
+        recordsPerPage: filters.page_size,
+      })
+    );
   }, [dispatch, filters, sortOrder]);
 
-  
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFilter("search_term", e.target.value);
     updateFilter("page", 1);
   };
 
-  const handleRecordsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleRecordsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     updateFilter("page_size", parseInt(e.target.value, 10));
     updateFilter("page", 1);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(e.target.value as 'asc' | 'desc' | null);
+    setSortOrder(e.target.value as "asc" | "desc" | null);
     updateFilter("page", 1);
   };
 
   const handleSort = (key: string) => {
     if (filters.sort_by === key) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
-      setSortOrder('asc');
+      setSortOrder("asc");
       updateFilter("sort_by", key);
     }
     updateFilter("page", 1);
   };
   const getSortIcon = (key: string) => {
     if (filters.sort_by === key) {
-      return sortOrder === 'asc' ? <FaSortUp /> : <FaSortDown />;
+      return sortOrder === "asc" ? <FaSortUp /> : <FaSortDown />;
     }
     return <FaSort />;
   };
@@ -77,5 +80,5 @@ export const useRecipes = () => {
     handleSort,
     filters,
     updateFilter,
-  }
-}
+  };
+};

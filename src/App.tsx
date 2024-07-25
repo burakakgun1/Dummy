@@ -4,7 +4,7 @@ import MainPage from "./pages/mainpage";
 import ProductsList from "./pages/ProductsList";
 import RecipesList from "./pages/RecipesList";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import LoginList from "./pages/LoginList";
 
 function App() {
@@ -17,8 +17,7 @@ function App() {
         <Route path="/products" element={<ProductsList />} />
         <Route path="/recipes" element={<RecipesList />} />
       </Routes>
-      <ToastContainer 
-      autoClose={3000}/>
+      <ToastContainer autoClose={3000} />
     </BrowserRouter>
   );
 }

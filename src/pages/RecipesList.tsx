@@ -34,10 +34,16 @@ const RecipesList: React.FC = () => {
       <Table bordered hover responsive className="shadow-sm">
         <thead className="bg-dark text-white">
           <tr>
-            <th onClick={() => handleSort('id')}>ID {getSortIcon('id')}</th>
-            <th onClick={() => handleSort('name')}>Name {getSortIcon('name')}</th>
-            <th onClick={() => handleSort('ingredients')}>Ingredients {getSortIcon('ingredients')}</th>
-            <th onClick={() => handleSort('instructions')}>Instructions {getSortIcon('instructions')}</th>
+            <th onClick={() => handleSort("id")}>ID {getSortIcon("id")}</th>
+            <th onClick={() => handleSort("name")}>
+              Name {getSortIcon("name")}
+            </th>
+            <th onClick={() => handleSort("ingredients")}>
+              Ingredients {getSortIcon("ingredients")}
+            </th>
+            <th onClick={() => handleSort("instructions")}>
+              Instructions {getSortIcon("instructions")}
+            </th>
           </tr>
         </thead>
         <tbody>

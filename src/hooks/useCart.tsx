@@ -18,10 +18,18 @@ export const useCart = () => {
     dispatch(deleteFromCart(id));
   };
 
-
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   };
 
-  return { cartItems, handleAddToCart, handleRemoveFromCart,calculateTotalPrice,handleDeleteFromCart };
+  return {
+    cartItems,
+    handleAddToCart,
+    handleRemoveFromCart,
+    calculateTotalPrice,
+    handleDeleteFromCart,
+  };
 };

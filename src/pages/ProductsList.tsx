@@ -228,7 +228,10 @@ const ProductsList: React.FC = () => {
         </Col>
       </Row>
 
-      <Modal show={filters.show_update_modal} onHide={() => updateFilter("show_update_modal", false)}>
+      <Modal
+        show={filters.show_update_modal}
+        onHide={() => updateFilter("show_update_modal", false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Update Product</Modal.Title>
         </Modal.Header>
@@ -256,7 +259,10 @@ const ProductsList: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => updateFilter("show_update_modal",false)}>
+          <Button
+            variant="secondary"
+            onClick={() => updateFilter("show_update_modal", false)}
+          >
             Close
           </Button>
           <Button variant="primary" onClick={handleUpdateProduct}>
@@ -265,7 +271,10 @@ const ProductsList: React.FC = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={filters.show_cart_modal} onHide={() => updateFilter("show_cart_modal",false)}>
+      <Modal
+        show={filters.show_cart_modal}
+        onHide={() => updateFilter("show_cart_modal", false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Shopping Cart</Modal.Title>
         </Modal.Header>
@@ -273,12 +282,18 @@ const ProductsList: React.FC = () => {
           <CartList />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => updateFilter("show_cart_modal",false)}>
+          <Button
+            variant="secondary"
+            onClick={() => updateFilter("show_cart_modal", false)}
+          >
             Close
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={filters.show_image_modal} onHide={() => updateFilter("show_image_modal",false)}>
+      <Modal
+        show={filters.show_image_modal}
+        onHide={() => updateFilter("show_image_modal", false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Product Image</Modal.Title>
         </Modal.Header>

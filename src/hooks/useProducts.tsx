@@ -47,7 +47,6 @@ export const useProducts = () => {
     );
   }, [dispatch, filters.search_term, filters.page, filters.page_size]);
 
-  
   const handleRecordsPerPageChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
@@ -119,8 +118,8 @@ export const useProducts = () => {
     toast.success("Product added to cart!");
   };
   const handleRowClick = (product: Product) => {
-    updateFilter('select_image', product.images[0] || '');
-    updateFilter('show_image_modal', true);
+    updateFilter("select_image", product.images[0] || "");
+    updateFilter("show_image_modal", true);
   };
 
   return {
