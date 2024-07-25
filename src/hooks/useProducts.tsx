@@ -15,7 +15,6 @@ import { addToCart } from "../Slices/cartSlice";
 export const useProducts = () => {
   const dispatch = useDispatch<AppDispatch>();
   const productsData = useSelector((state: RootState) => state.products);
-  const [updateProductId, setUpdateProductId] = useState<number | null>(null);
   const initialState: FetchProductsParams = {
     page: 1,
     page_size: 10,
@@ -28,6 +27,7 @@ export const useProducts = () => {
     show_image_modal: false,
     show_cart_modal: false,
     show_update_modal: false,
+    update_product_id: null,
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
 
@@ -79,18 +79,18 @@ export const useProducts = () => {
   };
 
   const openUpdateModal = (product: Product) => {
-    setUpdateProductId(product.id);
+    updateFilter("update_product_id", product.id);
     updateFilter("update_product_title", product.title);
     updateFilter("update_product_price", product.price.toString());
     updateFilter("show_update_modal", true);
   };
 
   const handleUpdateProduct = async () => {
-    if (updateProductId === null) return;
+    if (filters.update_product_id === null) return;
     try {
       await dispatch(
         updateProduct({
-          id: updateProductId,
+          id: filters.update_product_id,
           title: filters.update_product_title,
           price: parseFloat(filters.update_product_price),
         })
@@ -127,7 +127,6 @@ export const useProducts = () => {
     updateFilter,
     filters,
     productsData,
-    updateProductId,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,

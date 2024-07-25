@@ -31,6 +31,7 @@ export interface FetchProductsParams {
   show_image_modal: boolean;
   show_cart_modal: boolean;
   show_update_modal: boolean;
+  update_product_id: number | null;
 }
 export interface ProductsState {
   products: Product[];

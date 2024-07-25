@@ -33,6 +33,7 @@ export interface FetchRecipesParams {
   page_size: number;
   search_term: string;
   sort_by: string;
+  sort_order: "asc" | "desc" | null;
 }
 
 export const fetchRecipes = createAsyncThunk<
