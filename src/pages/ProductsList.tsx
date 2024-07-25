@@ -16,11 +16,7 @@ import CartList from "./CartList";
 const ProductsList: React.FC = () => {
   const {
     productsData: { products, total, status, error },
-    showUpdateModal,
     filters,
-    showCartModal,
-    setShowUpdateModal,
-    setShowCartModal,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
@@ -29,6 +25,7 @@ const ProductsList: React.FC = () => {
     handleDeleteProduct,
     handleAddToCart,
     updateFilter,
+    handleRowClick,
   } = useProducts();
 
   const totalPages = Math.ceil(total / filters.page_size);
@@ -50,7 +47,7 @@ const ProductsList: React.FC = () => {
           <Button
             className="btn-sm"
             variant="primary"
-            onClick={() => setShowCartModal(true)}
+            onClick={() => updateFilter("show_cart_modal", true)}
           >
             SEPET
           </Button>
@@ -102,6 +99,7 @@ const ProductsList: React.FC = () => {
             <th>ID</th>
             <th>Title</th>
             <th>Price</th>
+            <th>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -111,6 +109,16 @@ const ProductsList: React.FC = () => {
               <td>{product.id}</td>
               <td>{product.title}</td>
               <td>${product.price}</td>
+              <td>
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={() => handleRowClick(product)}
+                >
+                  View Image
+                </Button>
+              </td>
+
               <td>
                 <Button
                   variant="info"
@@ -220,7 +228,7 @@ const ProductsList: React.FC = () => {
         </Col>
       </Row>
 
-      <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
+      <Modal show={filters.show_update_modal} onHide={() => updateFilter("show_update_modal", false)}>
         <Modal.Header closeButton>
           <Modal.Title>Update Product</Modal.Title>
         </Modal.Header>
@@ -248,7 +256,7 @@ const ProductsList: React.FC = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>
+          <Button variant="secondary" onClick={() => updateFilter("show_update_modal",false)}>
             Close
           </Button>
           <Button variant="primary" onClick={handleUpdateProduct}>
@@ -257,7 +265,7 @@ const ProductsList: React.FC = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showCartModal} onHide={() => setShowCartModal(false)}>
+      <Modal show={filters.show_cart_modal} onHide={() => updateFilter("show_cart_modal",false)}>
         <Modal.Header closeButton>
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
@@ -265,10 +273,26 @@ const ProductsList: React.FC = () => {
           <CartList />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowCartModal(false)}>
+          <Button variant="secondary" onClick={() => updateFilter("show_cart_modal",false)}>
             Close
           </Button>
         </Modal.Footer>
+      </Modal>
+      <Modal show={filters.show_image_modal} onHide={() => updateFilter("show_image_modal",false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Product Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {filters.select_image ? (
+            <img
+              src={filters.select_image}
+              className="img-fluid"
+              alt="Product"
+            />
+          ) : (
+            <p>No image available</p>
+          )}
+        </Modal.Body>
       </Modal>
     </div>
   );

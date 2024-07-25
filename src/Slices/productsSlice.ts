@@ -6,6 +6,7 @@ export interface Product {
   id: number;
   title: string;
   price: number;
+  images: string[];  
 }
 
 export interface FetchProductsResponse {
@@ -26,6 +27,10 @@ export interface FetchProductsParams {
   update_product_price: string;
   search_term: string;
   new_product_price: string;
+  select_image: string;
+  show_image_modal: boolean;
+  show_cart_modal: boolean;
+  show_update_modal: boolean;
 }
 export interface ProductsState {
   products: Product[];
@@ -55,7 +60,7 @@ export const fetchProducts = createAsyncThunk<
           ? `/products/search?q=${searchTerm}&limit=${recordsPerPage}&skip=${skip}`
           : `/products?limit=${recordsPerPage}&skip=${skip}`
       );
-
+      
       return {
         products: response.data.products,
         total: response.data.total,

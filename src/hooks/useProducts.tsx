@@ -15,10 +15,7 @@ import { addToCart } from "../Slices/cartSlice";
 export const useProducts = () => {
   const dispatch = useDispatch<AppDispatch>();
   const productsData = useSelector((state: RootState) => state.products);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProductId, setUpdateProductId] = useState<number | null>(null);
-  const [showCartModal, setShowCartModal] = useState(false);
-
   const initialState: FetchProductsParams = {
     page: 1,
     page_size: 10,
@@ -27,6 +24,10 @@ export const useProducts = () => {
     update_product_price: "",
     search_term: "",
     new_product_price: "",
+    select_image: "",
+    show_image_modal: false,
+    show_cart_modal: false,
+    show_update_modal: false,
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
 
@@ -82,7 +83,7 @@ export const useProducts = () => {
     setUpdateProductId(product.id);
     updateFilter("update_product_title", product.title);
     updateFilter("update_product_price", product.price.toString());
-    setShowUpdateModal(true);
+    updateFilter("show_update_modal", true);
   };
 
   const handleUpdateProduct = async () => {
@@ -96,7 +97,7 @@ export const useProducts = () => {
         })
       ).unwrap();
       toast.success("Product updated successfully!");
-      setShowUpdateModal(false);
+      updateFilter("show_update_modal", false);
     } catch (error) {
       toast.error("Error updating product!");
       console.error("Error updating product:", error);
@@ -117,16 +118,17 @@ export const useProducts = () => {
     dispatch(addToCart(product));
     toast.success("Product added to cart!");
   };
+  const handleRowClick = (product: Product) => {
+    updateFilter('select_image', product.images[0] || '');
+    updateFilter('show_image_modal', true);
+  };
 
   return {
+    handleRowClick,
     updateFilter,
     filters,
     productsData,
-    showUpdateModal,
-    setShowUpdateModal,
     updateProductId,
-    showCartModal,
-    setShowCartModal,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
