@@ -13,10 +13,11 @@ import {
 } from "../Slices/productsSlice";
 import { addToCart } from "../Slices/cartSlice";
 import Chart from "chart.js/auto";
+import { ChartType, ChartTypeRegistry } from "chart.js";
 import { useTranslation } from "react-i18next";
 
 export const useProducts = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const productsData = useSelector((state: RootState) => state.products);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -39,6 +40,7 @@ export const useProducts = () => {
     selected_product_name: "",
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
+  const [chartType, setChartType] = useState<ChartType>("doughnut");
 
   const updateFilter = (key: keyof FetchProductsParams, value: any) => {
     setFilters((prevState) => ({
@@ -46,6 +48,7 @@ export const useProducts = () => {
       [key]: value,
     }));
   };
+
   useEffect(() => {
     dispatch(
       fetchProducts({
@@ -138,52 +141,64 @@ export const useProducts = () => {
 
   const prepareChartData = (reviews: Review[]) => {
     const ratingCounts = [0, 0, 0, 0, 0];
-    reviews.forEach(review => {
+    reviews.forEach((review) => {
       ratingCounts[review.rating - 1]++;
     });
 
     return {
-      labels: [t("products.onestar"), t("products.twostar"), t("products.threestar"), t("products.fourstar"), t("products.fivestar")],
-      datasets: [{
-        label: t("products.ratingDistribution"),
-        data: ratingCounts,
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-          'rgb(75, 192, 192)',
-          'rgb(153, 102, 255)'
-        ],
-        hoverOffset: 4
-      }]
+      labels: [
+        t("products.onestar"),
+        t("products.twostar"),
+        t("products.threestar"),
+        t("products.fourstar"),
+        t("products.fivestar"),
+      ],
+      datasets: [
+        {
+          label: t("products.ratingDistribution"),
+          data: ratingCounts,
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(153, 102, 255)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
     };
+  };
+
+  const handleChartTypeChange = (type: keyof ChartTypeRegistry) => {
+    setChartType(type);
   };
 
   useEffect(() => {
     if (filters.show_review_modal && chartRef.current) {
-      const ctx = chartRef.current.getContext('2d');
+      const ctx = chartRef.current.getContext("2d");
       if (ctx) {
         if (chartInstance.current) {
           chartInstance.current.destroy();
         }
-        
+
         const data = prepareChartData(filters.selected_product_reviews || []);
-        
+
         chartInstance.current = new Chart(ctx, {
-          type: 'doughnut',
+          type: chartType,
           data: data,
           options: {
             responsive: true,
             plugins: {
               legend: {
-                position: 'top',
+                position: "top",
               },
               title: {
                 display: true,
                 text: t("products.ratingDistribution"),
-              }
-            }
-          }
+              },
+            },
+          },
         });
       }
     }
@@ -193,12 +208,13 @@ export const useProducts = () => {
         chartInstance.current.destroy();
       }
     };
-  }, [filters.show_review_modal, filters.selected_product_reviews]);
+  }, [filters.show_review_modal, filters.selected_product_reviews, chartType, t]);
 
   return {
     filters,
     productsData,
     chartRef,
+    chartType,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
@@ -209,5 +225,6 @@ export const useProducts = () => {
     handleShowReviews,
     handleRowClick,
     updateFilter,
+    handleChartTypeChange,
   };
 };

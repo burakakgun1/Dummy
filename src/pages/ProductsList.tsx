@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useProducts } from "../hooks/useProducts";
 import CartList from "./CartList";
 import { useTranslation } from "react-i18next";
+import { ChartTypeRegistry } from "chart.js";
 
 const ProductsList: React.FC = () => {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ const ProductsList: React.FC = () => {
     productsData: { products, total, status, error },
     filters,
     chartRef,
+    chartType,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
@@ -31,6 +33,7 @@ const ProductsList: React.FC = () => {
     updateFilter,
     handleRowClick,
     handleShowReviews,
+    handleChartTypeChange,
   } = useProducts();
 
   const totalPages = Math.ceil(total / filters.page_size);
@@ -149,7 +152,7 @@ const ProductsList: React.FC = () => {
                 </Button>
               </td>
               <td>
-              <Button
+                <Button
                   variant="info"
                   onClick={() => handleShowReviews(product)}
                   className="btn-sm"
@@ -325,34 +328,61 @@ const ProductsList: React.FC = () => {
         </Modal.Body>
       </Modal>
       <Modal
-  show={filters.show_review_modal}
-  onHide={() => updateFilter("show_review_modal", false)}
-  size="lg"
->
-  <Modal.Header closeButton>
-    <Modal.Title>{filters.selected_product_name}</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Row>
-      <Col md={6}>
-        <canvas ref={chartRef}></canvas>
-      </Col>
-      <Col md={6}>
-        <h5>{t("products.reviews")}</h5>
-        <ListGroup>
-          {filters.selected_product_reviews?.map((review, index) => (
-            <ListGroup.Item key={index}>
-              <p><strong>{t("products.productsRating")}:</strong> {review.rating}</p>
-              <p><strong>{t("products.productsComments")}:</strong> {review.comment}</p>
-              <p><strong>{t("products.productsReviewerName")}:</strong> {review.reviewerName}</p>
-              <p><strong>{t("products.productsDate")}:</strong> {new Date(review.date).toLocaleDateString()}</p>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </Col>
-    </Row>
-  </Modal.Body>
-</Modal>
+        show={filters.show_review_modal}
+        onHide={() => updateFilter("show_review_modal", false)}
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{filters.selected_product_name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={6}>
+              <canvas ref={chartRef}></canvas>
+              <Form.Select
+                className="mt-5"
+                onChange={(e) =>
+                  handleChartTypeChange(
+                    e.target.value as keyof ChartTypeRegistry
+                  )
+                }
+                aria-label="Chart type select"
+                value={chartType}
+              >
+                <option value="doughnut">Doughnut</option>
+                <option value="bar">Bar</option>
+                <option value="radar">Radar</option>
+                <option value="polarArea">Polar Area</option>
+              </Form.Select>
+            </Col>
+            <Col md={6}>
+              <h5>{t("products.reviews")}</h5>
+              <ListGroup>
+                {filters.selected_product_reviews?.map((review, index) => (
+                  <ListGroup.Item key={index}>
+                    <p>
+                      <strong>{t("products.productsRating")}:</strong>{" "}
+                      {review.rating}
+                    </p>
+                    <p>
+                      <strong>{t("products.productsComments")}:</strong>{" "}
+                      {review.comment}
+                    </p>
+                    <p>
+                      <strong>{t("products.productsReviewerName")}:</strong>{" "}
+                      {review.reviewerName}
+                    </p>
+                    <p>
+                      <strong>{t("products.productsDate")}:</strong>{" "}
+                      {new Date(review.date).toLocaleDateString()}
+                    </p>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
