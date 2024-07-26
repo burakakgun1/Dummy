@@ -26,7 +26,11 @@
     "twostar": "2 Yıldız",
     "threestar": "3 Yıldız",
     "fourstar": "4 Yıldız",
-    "fivestar": "5 Yıldız"
+    "fivestar": "5 Yıldız",
+    "procutsRating":"Yıldız",
+    "productsComments":"Yorum",
+    "productsReviewerName":"Yazan Adı",
+    "productsDate":"Tarih"
   },
   "recipes": {
     "id": "ID",

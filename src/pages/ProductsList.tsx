@@ -7,6 +7,7 @@ import {
   Row,
   Col,
   Pagination,
+  ListGroup,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -324,17 +325,34 @@ const ProductsList: React.FC = () => {
         </Modal.Body>
       </Modal>
       <Modal
-        show={filters.show_review_modal}
-        onHide={() => updateFilter("show_review_modal", false)}
-        size="lg"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>{t("products.reviewsChart")}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <canvas ref={chartRef}></canvas>
-        </Modal.Body>
-      </Modal>
+  show={filters.show_review_modal}
+  onHide={() => updateFilter("show_review_modal", false)}
+  size="lg"
+>
+  <Modal.Header closeButton>
+    <Modal.Title>{filters.selected_product_name}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <Row>
+      <Col md={6}>
+        <canvas ref={chartRef}></canvas>
+      </Col>
+      <Col md={6}>
+        <h5>{t("products.reviews")}</h5>
+        <ListGroup>
+          {filters.selected_product_reviews?.map((review, index) => (
+            <ListGroup.Item key={index}>
+              <p><strong>{t("products.productsRating")}:</strong> {review.rating}</p>
+              <p><strong>{t("products.productsComments")}:</strong> {review.comment}</p>
+              <p><strong>{t("products.productsReviewerName")}:</strong> {review.reviewerName}</p>
+              <p><strong>{t("products.productsDate")}:</strong> {new Date(review.date).toLocaleDateString()}</p>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </Col>
+    </Row>
+  </Modal.Body>
+</Modal>
     </div>
   );
 };

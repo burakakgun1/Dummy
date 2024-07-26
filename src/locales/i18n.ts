@@ -1,24 +1,32 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import enTranslations from './en.json';
 import trTranslations from './tr.json';
 
+const LANG_STORAGE_KEY = 'userLanguage';
+
+const storedLanguage = localStorage.getItem(LANG_STORAGE_KEY) || 'en';
+
 i18n
-  .use(Backend)
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    lng: storedLanguage,
     fallbackLng: 'en',
-    debug: true,
+    resources: {
+      en: {
+        translation: enTranslations,
+      },
+      tr: {
+        translation: trTranslations,
+      },
+    },
     interpolation: {
       escapeValue: false,
     },
-    resources: {
-      en: { translation: enTranslations },
-      tr: { translation: trTranslations }
-    }
   });
+
+i18n.on('languageChanged', (lng) => {
+  localStorage.setItem(LANG_STORAGE_KEY, lng);
+});
 
 export default i18n;

@@ -26,7 +26,11 @@
     "twostar": "2 Stars",
     "threestar": "3 Stars",
     "fourstar": "4 Stars",
-    "fivestar": "5 Stars"
+    "fivestar": "5 Stars",
+    "productsRating":"Rating",
+    "productsComments":"Comment",
+    "productsReviewerName":"Reviewer Name",
+    "productsDate":"Date"
   },
   "recipes": {
     "id": "ID",

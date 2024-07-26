@@ -36,6 +36,7 @@ export const useProducts = () => {
     update_product_id: null,
     show_review_modal: false,
     selected_product_reviews: [],
+    selected_product_name: "",
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
 
@@ -131,6 +132,7 @@ export const useProducts = () => {
   };
   const handleShowReviews = (product: Product) => {
     updateFilter("selected_product_reviews", product.reviews);
+    updateFilter("selected_product_name", product.title);
     updateFilter("show_review_modal", true);
   };
 

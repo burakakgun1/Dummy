@@ -42,6 +42,7 @@ export interface FetchProductsParams {
   update_product_id: number | null;
   show_review_modal: boolean;
   selected_product_reviews: Review[] | null;
+  selected_product_name: string;
 }
 export interface ProductsState {
   products: Product[];
