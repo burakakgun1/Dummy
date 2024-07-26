@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { AppDispatch, RootState } from "../store";
@@ -8,13 +8,20 @@ import {
   fetchProducts,
   FetchProductsParams,
   Product,
+  Review,
   updateProduct,
 } from "../Slices/productsSlice";
 import { addToCart } from "../Slices/cartSlice";
+import Chart from "chart.js/auto";
+import { useTranslation } from "react-i18next";
 
 export const useProducts = () => {
+  const {t} = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const productsData = useSelector((state: RootState) => state.products);
+  const [selectedProductReviews, setSelectedProductReviews] = useState<Review[]>([]);
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstance = useRef<any>(null);
   const initialState: FetchProductsParams = {
     page: 1,
     page_size: 10,
@@ -28,6 +35,7 @@ export const useProducts = () => {
     show_cart_modal: false,
     show_update_modal: false,
     update_product_id: null,
+    show_review_modal: false,
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
 
@@ -121,6 +129,69 @@ export const useProducts = () => {
     updateFilter("select_image", product.images[0] || "");
     updateFilter("show_image_modal", true);
   };
+  const handleShowReviews = (product: Product) => {
+    setSelectedProductReviews(product.reviews);
+    updateFilter("show_review_modal", true);
+  };
+
+  const prepareChartData = (reviews: Review[]) => {
+    const ratingCounts = [0, 0, 0, 0, 0];
+    reviews.forEach(review => {
+      ratingCounts[review.rating - 1]++;
+    });
+
+    return {
+      labels: [t("products.onestar"), t("products.twostar"), t("products.threestar"), t("products.fourstar"), t("products.fivestar")],
+      datasets: [{
+        label: t("products.ratingDistribution"),
+        data: ratingCounts,
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(75, 192, 192)',
+          'rgb(153, 102, 255)'
+        ],
+        hoverOffset: 4
+      }]
+    };
+  };
+
+  useEffect(() => {
+    if (filters.show_review_modal && chartRef.current) {
+      const ctx = chartRef.current.getContext('2d');
+      if (ctx) {
+        if (chartInstance.current) {
+          chartInstance.current.destroy();
+        }
+        
+        const data = prepareChartData(selectedProductReviews);
+        
+        chartInstance.current = new Chart(ctx, {
+          type: 'doughnut',
+          data: data,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: t("products.ratingDistribution"),
+              }
+            }
+          }
+        });
+      }
+    }
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [filters.show_review_modal, selectedProductReviews]);
 
   return {
     handleRowClick,
@@ -134,5 +205,9 @@ export const useProducts = () => {
     handleUpdateProduct,
     handleDeleteProduct,
     handleAddToCart,
+    handleShowReviews,
+    chartRef,
+    selectedProductReviews,
+    setSelectedProductReviews,
   };
 };

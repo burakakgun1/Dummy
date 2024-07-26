@@ -17,7 +17,16 @@
     "addToCart": "Sepete Ekle",
     "updateProduct": "Ürünü Güncelle",
     "close": "Kapat",
-    "noImage": "Görüntü mevcut değil"
+    "noImage": "Görüntü mevcut değil",
+    "reviews": "Değerlendirmeler",
+    "showReviews": "Değerlendirmeleri Göster",
+    "reviewsChart": "Değerlendirme Grafiği",
+    "ratingDistribution": "Değerlendirme Dağılımı",
+    "onestar": "1 Yıldız",
+    "twostar": "2 Yıldız",
+    "threestar": "3 Yıldız",
+    "fourstar": "4 Yıldız",
+    "fivestar": "5 Yıldız"
   },
   "recipes": {
     "id": "ID",

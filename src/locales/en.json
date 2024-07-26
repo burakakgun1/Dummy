@@ -17,7 +17,16 @@
     "addToCart": "Add to Cart",
     "updateProduct": "Update Product",
     "close": "Close",
-    "noImage": "No image available"
+    "noImage": "No image available",
+    "reviews": "Reviews",
+    "showReviews": "Show reviews",
+    "reviewsChart": "Rating Chart",
+    "ratingDistribution": "Rating Distribution",
+    "onestar": "1 Star",
+    "twostar": "2 Stars",
+    "threestar": "3 Stars",
+    "fourstar": "4 Stars",
+    "fivestar": "5 Stars"
   },
   "recipes": {
     "id": "ID",

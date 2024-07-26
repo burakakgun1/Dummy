@@ -7,12 +7,20 @@ export interface Product {
   title: string;
   price: number;
   images: string[];
+  reviews: Review[];
 }
 
 export interface FetchProductsResponse {
   products: Product[];
   status: number;
   total: number;
+}
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+  reviewerEmail: string;
 }
 
 export interface DeleteProductResponse {
@@ -32,6 +40,7 @@ export interface FetchProductsParams {
   show_cart_modal: boolean;
   show_update_modal: boolean;
   update_product_id: number | null;
+  show_review_modal: boolean;
 }
 export interface ProductsState {
   products: Product[];

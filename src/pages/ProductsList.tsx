@@ -28,6 +28,8 @@ const ProductsList: React.FC = () => {
     handleAddToCart,
     updateFilter,
     handleRowClick,
+    handleShowReviews,
+    chartRef,
   } = useProducts();
 
   const totalPages = Math.ceil(total / filters.page_size);
@@ -103,6 +105,7 @@ const ProductsList: React.FC = () => {
             <th>{t("products.price")}</th>
             <th>{t("products.image")}</th>
             <th>{t("products.actions")}</th>
+            <th>{t("products.reviews")}</th>
           </tr>
         </thead>
         <tbody>
@@ -142,6 +145,15 @@ const ProductsList: React.FC = () => {
                   className="btn-sm"
                 >
                   {t("products.addToCart")}
+                </Button>
+              </td>
+              <td>
+              <Button
+                  variant="info"
+                  onClick={() => handleShowReviews(product)}
+                  className="btn-sm"
+                >
+                  {t("products.showReviews")}
                 </Button>
               </td>
             </tr>
@@ -309,6 +321,18 @@ const ProductsList: React.FC = () => {
           ) : (
             <p>{t("products.noImage")}</p>
           )}
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={filters.show_review_modal}
+        onHide={() => updateFilter("show_review_modal", false)}
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{t("products.reviewsChart")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <canvas ref={chartRef}></canvas>
         </Modal.Body>
       </Modal>
     </div>
