@@ -1,8 +1,10 @@
 import { Button, Table } from "react-bootstrap";
 import { useCart } from "../hooks/useCart";
 import { FaTrash } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const CartList: React.FC = () => {
+  const { t } = useTranslation();
   const {
     handleAddToCart,
     handleRemoveFromCart,
@@ -16,18 +18,18 @@ const CartList: React.FC = () => {
       <Table striped bordered hover>
         <thead>
           <tr className="text-center min-width 100vh">
-            <th>Title</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Actions</th>
+            <th>{t("cart.title")}</th>
+            <th>{t("cart.price")}</th>
+            <th>{t("cart.quantity")}</th>
+            <th>{t("cart.total")}</th>
+            <th>{t("cart.actions")}</th>
           </tr>
         </thead>
         <tbody>
           {cartItems.length === 0 ? (
             <tr>
               <td colSpan={6} className="text-center">
-                Your cart is empty
+                {t("cart.emptyCart")}
               </td>
             </tr>
           ) : (
@@ -67,7 +69,7 @@ const CartList: React.FC = () => {
         </tbody>
       </Table>
       <h3 className="text-right mt-4">
-        Total Price: ${calculateTotalPrice().toFixed(2)}
+        {t("cart.totalPrice")}{calculateTotalPrice().toFixed(2)}
       </h3>
     </div>
   );

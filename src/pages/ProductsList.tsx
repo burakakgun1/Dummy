@@ -12,8 +12,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useProducts } from "../hooks/useProducts";
 import CartList from "./CartList";
+import { useTranslation } from "react-i18next";
 
 const ProductsList: React.FC = () => {
+  const { t } = useTranslation();
   const {
     productsData: { products, total, status, error },
     filters,
@@ -37,7 +39,7 @@ const ProductsList: React.FC = () => {
           <Form.Group controlId="formSearch">
             <Form.Control
               type="text"
-              placeholder="Search products"
+              placeholder={t("products.searchProducts")}
               value={filters.search_term}
               onChange={(e) => handleSearchChange(e)}
             />
@@ -49,7 +51,7 @@ const ProductsList: React.FC = () => {
             variant="primary"
             onClick={() => updateFilter("show_cart_modal", true)}
           >
-            Shopping Cart
+            {t("products.shoppingCart")}
           </Button>
         </Col>
         <Col md={7}>
@@ -60,7 +62,7 @@ const ProductsList: React.FC = () => {
             >
               <Form.Control
                 type="text"
-                placeholder="Enter product title"
+                placeholder={t("products.enterProductTitle")}
                 value={filters.new_product_title}
                 onChange={(e) =>
                   updateFilter("new_product_title", e.target.value)
@@ -75,7 +77,7 @@ const ProductsList: React.FC = () => {
               <Form.Control
                 type="number"
                 step="0.01"
-                placeholder="Enter product price"
+                placeholder={t("products.enterProductPrice")}
                 value={filters.new_product_price}
                 onChange={(e) =>
                   updateFilter("new_product_price", e.target.value)
@@ -84,7 +86,7 @@ const ProductsList: React.FC = () => {
               />
             </Form.Group>
             <Button variant="primary" type="submit" className="btn-sm">
-              Add Product
+              {t("products.addProduct")}
             </Button>
           </Form>
         </Col>
@@ -96,11 +98,11 @@ const ProductsList: React.FC = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Actions</th>
+            <th>{t("products.id")}</th>
+            <th>{t("products.title")}</th>
+            <th>{t("products.price")}</th>
+            <th>{t("products.image")}</th>
+            <th>{t("products.actions")}</th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +117,7 @@ const ProductsList: React.FC = () => {
                   size="sm"
                   onClick={() => handleRowClick(product)}
                 >
-                  View Image
+                  {t("products.viewImage")}
                 </Button>
               </td>
 
@@ -125,21 +127,21 @@ const ProductsList: React.FC = () => {
                   onClick={() => openUpdateModal(product)}
                   className="btn-sm me-2"
                 >
-                  Update
+                  {t("products.update")}
                 </Button>
                 <Button
                   variant="danger"
                   onClick={() => handleDeleteProduct(product.id)}
                   className="btn-sm me-2"
                 >
-                  Delete
+                  {t("products.delete")}
                 </Button>
                 <Button
                   variant="primary"
                   onClick={() => handleAddToCart(product)}
                   className="btn-sm"
                 >
-                  Add to Cart
+                  {t("products.addToCart")}
                 </Button>
               </td>
             </tr>
@@ -233,11 +235,11 @@ const ProductsList: React.FC = () => {
         onHide={() => updateFilter("show_update_modal", false)}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Product</Modal.Title>
+          <Modal.Title>{t("products.updateProduct")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="formUpdateProductTitle" className="mb-3">
-            <Form.Label>Title</Form.Label>
+            <Form.Label>{t("products.title")}</Form.Label>
             <Form.Control
               type="text"
               value={filters.update_product_title}
@@ -247,7 +249,7 @@ const ProductsList: React.FC = () => {
             />
           </Form.Group>
           <Form.Group controlId="formUpdateProductPrice" className="mb-3">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>{t("products.price")}</Form.Label>
             <Form.Control
               type="number"
               step="0.01"
@@ -263,10 +265,10 @@ const ProductsList: React.FC = () => {
             variant="secondary"
             onClick={() => updateFilter("show_update_modal", false)}
           >
-            Close
+            {t("products.close")}
           </Button>
           <Button variant="primary" onClick={handleUpdateProduct}>
-            Update Product
+            {t("products.update")}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -276,7 +278,7 @@ const ProductsList: React.FC = () => {
         onHide={() => updateFilter("show_cart_modal", false)}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Shopping Cart</Modal.Title>
+          <Modal.Title>{t("products.shoppingCart")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CartList />
@@ -286,7 +288,7 @@ const ProductsList: React.FC = () => {
             variant="secondary"
             onClick={() => updateFilter("show_cart_modal", false)}
           >
-            Close
+            {t("products.close")}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -295,7 +297,7 @@ const ProductsList: React.FC = () => {
         onHide={() => updateFilter("show_image_modal", false)}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Product Image</Modal.Title>
+          <Modal.Title>{t("products.image")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {filters.select_image ? (
@@ -305,7 +307,7 @@ const ProductsList: React.FC = () => {
               alt="Product"
             />
           ) : (
-            <p>No image available</p>
+            <p>{t("products.noImage")}</p>
           )}
         </Modal.Body>
       </Modal>

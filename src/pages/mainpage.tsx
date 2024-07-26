@@ -3,8 +3,10 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeadphones, faUtensils } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 const MainPage: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <Container className="mt-5">
       <Row className="mb-4">
@@ -17,8 +19,8 @@ const MainPage: React.FC = () => {
                   size="3x"
                   className="mb-3"
                 />
-                <Card.Title className="mb-3">Products</Card.Title>
-                <Card.Text>Click to view our product list</Card.Text>
+                <Card.Title className="mb-3">{t('mainPage.products')}</Card.Title>
+                <Card.Text>{t('mainPage.viewProducts')}</Card.Text>
               </Card.Body>
             </Card>
           </Link>
@@ -28,8 +30,8 @@ const MainPage: React.FC = () => {
             <Card className="h-100 shadow-sm">
               <Card.Body className="d-flex flex-column align-items-center">
                 <FontAwesomeIcon icon={faUtensils} size="3x" className="mb-3" />
-                <Card.Title className="mb-3">Recipes</Card.Title>
-                <Card.Text>Click to explore our recipes</Card.Text>
+                <Card.Title className="mb-3">{t('mainPage.recipes')}</Card.Title>
+                <Card.Text>{t('mainPage.exploreRecipes')}</Card.Text>
               </Card.Body>
             </Card>
           </Link>

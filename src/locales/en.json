@@ -1,0 +1,52 @@
+{
+  "products": {
+    "title": "Products",
+    "viewProducts": "Click to view our product list",
+    "searchProducts": "Search products",
+    "shoppingCart": "Shopping Cart",
+    "addProduct": "Add Product",
+    "enterProductTitle": "Enter product title",
+    "enterProductPrice": "Enter product price",
+    "id": "ID",
+    "price": "Price",
+    "image": "Image",
+    "actions": "Actions",
+    "viewImage": "View Image",
+    "update": "Update",
+    "delete": "Delete",
+    "addToCart": "Add to Cart",
+    "updateProduct": "Update Product",
+    "close": "Close",
+    "noImage": "No image available"
+  },
+  "recipes": {
+    "id": "ID",
+    "title": "Recipes",
+    "exploreRecipes": "Click to explore our recipes",
+    "searchRecipes": "Search recipes",
+    "name": "Name",
+    "ingredients": "Ingredients",
+    "instructions": "Instructions"
+  },
+  "cart": {
+    "title": "Title",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "actions": "Actions",
+    "emptyCart": "Your cart is empty",
+    "totalPrice": "Total Price $"
+  },
+  "login": {
+    "title": "Login",
+    "username": "Enter username",
+    "password": "Password",
+    "loginButton": "Login"
+  },
+  "mainPage": {
+    "products": "Products",
+    "recipes": "Recipes",
+    "viewProducts": "Click to view our product list",
+    "exploreRecipes": "Click to explore our recipes"
+  }
+}

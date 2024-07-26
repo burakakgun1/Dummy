@@ -6,18 +6,22 @@ import RecipesList from "./pages/RecipesList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginList from "./pages/LoginList";
+import LanguageSelector from "./locales/LanguageSelector";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<LoginList />} />
-        <Route path="/mainpage" element={<MainPage />} />
-        <Route path="/products" element={<ProductsList />} />
-        <Route path="/recipes" element={<RecipesList />} />
-      </Routes>
-      <ToastContainer autoClose={3000} />
+      <div>
+        <LanguageSelector/>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<LoginList />} />
+          <Route path="/mainpage" element={<MainPage />} />
+          <Route path="/products" element={<ProductsList />} />
+          <Route path="/recipes" element={<RecipesList />} />
+        </Routes>
+        <ToastContainer autoClose={3000} />
+      </div>
     </BrowserRouter>
   );
 }

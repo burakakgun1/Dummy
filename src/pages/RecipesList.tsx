@@ -2,8 +2,10 @@ import React from "react";
 import { Row, Col, Table, Pagination, Form } from "react-bootstrap";
 import { useRecipes } from "../hooks/useRecipes";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useTranslation } from "react-i18next";
 
 const RecipesList: React.FC = () => {
+  const { t } = useTranslation();
   const {
     filters,
     recipesState,
@@ -23,7 +25,7 @@ const RecipesList: React.FC = () => {
           <Form.Group controlId="formSearch">
             <Form.Control
               type="text"
-              placeholder="Search recipes"
+              placeholder={t("recipes.searchRecipes")}
               value={filters.search_term}
               onChange={handleSearchChange}
             />
@@ -34,15 +36,15 @@ const RecipesList: React.FC = () => {
       <Table bordered hover responsive className="shadow-sm">
         <thead className="bg-dark text-white">
           <tr>
-            <th onClick={() => handleSort("id")}>ID {getSortIcon("id")}</th>
+            <th onClick={() => handleSort("id")}>{t("recipes.id")} {getSortIcon("id")}</th>
             <th onClick={() => handleSort("name")}>
-              Name {getSortIcon("name")}
+              {t("recipes.name")} {getSortIcon("name")}
             </th>
             <th onClick={() => handleSort("ingredients")}>
-              Ingredients {getSortIcon("ingredients")}
+              {t("recipes.ingredients")} {getSortIcon("ingredients")}
             </th>
             <th onClick={() => handleSort("instructions")}>
-              Instructions {getSortIcon("instructions")}
+              {t("recipes.instructions")} {getSortIcon("instructions")}
             </th>
           </tr>
         </thead>

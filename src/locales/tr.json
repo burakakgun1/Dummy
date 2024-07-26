@@ -1,0 +1,52 @@
+{
+  "products": {
+    "title": "Ürünler",
+    "viewProducts": "Ürün listemizi görüntülemek için tıklayın",
+    "searchProducts": "Ürünleri ara",
+    "shoppingCart": "Alışveriş Sepeti",
+    "addProduct": "Ürün Ekle",
+    "enterProductTitle": "Ürün başlığını girin",
+    "enterProductPrice": "Ürün fiyatını girin",
+    "id": "ID",
+    "price": "Fiyat",
+    "image": "Görüntü",
+    "actions": "Eylemler",
+    "viewImage": "Görüntüyü Görüntüle",
+    "update": "Güncelle",
+    "delete": "Sil",
+    "addToCart": "Sepete Ekle",
+    "updateProduct": "Ürünü Güncelle",
+    "close": "Kapat",
+    "noImage": "Görüntü mevcut değil"
+  },
+  "recipes": {
+    "id": "ID",
+    "title": "Tarifler",
+    "exploreRecipes": "Tariflerimizi keşfetmek için tıklayın",
+    "searchRecipes": "Tarifleri ara",
+    "name": "İsim",
+    "ingredients": "Malzemeler",
+    "instructions": "Talimatlar"
+  },
+  "cart": {
+    "title": "Başlık",
+    "price": "Fiyat",
+    "quantity": "Miktar",
+    "total": "Toplam",
+    "actions": "Eylemler",
+    "emptyCart": "Sepetiniz boş",
+    "totalPrice": "Toplam Fiyat $"
+  },
+  "login": {
+    "title": "Giriş",
+    "username": "Kullanıcı adını girin",
+    "password": "Şifre",
+    "loginButton": "Giriş Yap"
+  },
+  "mainPage": {
+    "products": "Ürünler",
+    "recipes": "Tarifler",
+    "viewProducts": "Ürün listemizi görüntülemek için tıklayın",
+    "exploreRecipes": "Tariflerimizi keşfetmek için tıklayın"
+  }
+}
