@@ -19,6 +19,7 @@ const ProductsList: React.FC = () => {
   const {
     productsData: { products, total, status, error },
     filters,
+    chartRef,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
@@ -29,7 +30,6 @@ const ProductsList: React.FC = () => {
     updateFilter,
     handleRowClick,
     handleShowReviews,
-    chartRef,
   } = useProducts();
 
   const totalPages = Math.ceil(total / filters.page_size);

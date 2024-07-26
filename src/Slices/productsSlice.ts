@@ -41,6 +41,7 @@ export interface FetchProductsParams {
   show_update_modal: boolean;
   update_product_id: number | null;
   show_review_modal: boolean;
+  selected_product_reviews: Review[] | null;
 }
 export interface ProductsState {
   products: Product[];

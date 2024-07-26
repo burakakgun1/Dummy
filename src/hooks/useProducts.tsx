@@ -19,7 +19,6 @@ export const useProducts = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const productsData = useSelector((state: RootState) => state.products);
-  const [selectedProductReviews, setSelectedProductReviews] = useState<Review[]>([]);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<any>(null);
   const initialState: FetchProductsParams = {
@@ -36,6 +35,7 @@ export const useProducts = () => {
     show_update_modal: false,
     update_product_id: null,
     show_review_modal: false,
+    selected_product_reviews: [],
   };
   const [filters, setFilters] = useState<FetchProductsParams>(initialState);
 
@@ -130,7 +130,7 @@ export const useProducts = () => {
     updateFilter("show_image_modal", true);
   };
   const handleShowReviews = (product: Product) => {
-    setSelectedProductReviews(product.reviews);
+    updateFilter("selected_product_reviews", product.reviews);
     updateFilter("show_review_modal", true);
   };
 
@@ -165,7 +165,7 @@ export const useProducts = () => {
           chartInstance.current.destroy();
         }
         
-        const data = prepareChartData(selectedProductReviews);
+        const data = prepareChartData(filters.selected_product_reviews || []);
         
         chartInstance.current = new Chart(ctx, {
           type: 'doughnut',
@@ -191,13 +191,12 @@ export const useProducts = () => {
         chartInstance.current.destroy();
       }
     };
-  }, [filters.show_review_modal, selectedProductReviews]);
+  }, [filters.show_review_modal, filters.selected_product_reviews]);
 
   return {
-    handleRowClick,
-    updateFilter,
     filters,
     productsData,
+    chartRef,
     handleRecordsPerPageChange,
     handleSearchChange,
     handleAddProduct,
@@ -206,8 +205,7 @@ export const useProducts = () => {
     handleDeleteProduct,
     handleAddToCart,
     handleShowReviews,
-    chartRef,
-    selectedProductReviews,
-    setSelectedProductReviews,
+    handleRowClick,
+    updateFilter,
   };
 };
