@@ -70,5 +70,9 @@
     "recipes": "Tarifler",
     "viewProducts": "Ürün listemizi görüntülemek için tıklayın",
     "exploreRecipes": "Tariflerimizi keşfetmek için tıklayın"
-  }
+  },
+  "common": {
+      "loading": "Yükleniyor...",
+      "error": "Hata"
+    }
 }

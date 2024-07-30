@@ -70,5 +70,9 @@
     "recipes": "Recipes",
     "viewProducts": "Click to view our product list",
     "exploreRecipes": "Click to explore our recipes"
-  }
+  },
+    "common": {
+      "loading": "Loading...",
+      "error": "Error"
+    }
 }
