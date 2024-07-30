@@ -3,14 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import enTranslations from './en.json';
 import trTranslations from './tr.json';
 
-const LANG_STORAGE_KEY = 'userLanguage';
-
-const storedLanguage = localStorage.getItem(LANG_STORAGE_KEY) || 'en';
-
 i18n
   .use(initReactI18next)
   .init({
-    lng: storedLanguage,
+    lng: 'en', 
     fallbackLng: 'en',
     resources: {
       en: {
@@ -24,9 +20,5 @@ i18n
       escapeValue: false,
     },
   });
-
-i18n.on('languageChanged', (lng) => {
-  localStorage.setItem(LANG_STORAGE_KEY, lng);
-});
 
 export default i18n;

@@ -6,6 +6,7 @@ import RecipesList from "./pages/RecipesList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginList from "./pages/LoginList";
+import RecipeDetailsList from "./pages/RecipesDetailsList";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/mainpage" element={<MainPage />} />
           <Route path="/products" element={<ProductsList />} />
           <Route path="/recipes" element={<RecipesList />} />
+          <Route path="/recipes/:id" element={<RecipeDetailsList />} />
         </Routes>
         <ToastContainer autoClose={3000} />
     </BrowserRouter>

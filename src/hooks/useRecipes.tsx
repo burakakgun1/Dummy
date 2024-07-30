@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchRecipes, FetchRecipesParams } from "../Slices/recipesSlice";
 import { AppDispatch, RootState } from "../store";
 import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"
 
 export const useRecipes = () => {
   const dispatch = useDispatch<AppDispatch>();
   const recipesState = useSelector((state: RootState) => state.recipes);
+  const navigate = useNavigate();
 
   const initialState: FetchRecipesParams = {
     page: 1,
@@ -69,7 +71,12 @@ export const useRecipes = () => {
     return <FaSort />;
   };
 
+  const handleRowClick = (id: number) => {
+    navigate(`/recipes/${id}`);
+  };
+
   return {
+    handleRowClick,
     recipesState,
     getSortIcon,
     handleSearchChange,

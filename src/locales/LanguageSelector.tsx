@@ -1,24 +1,20 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dropdown } from 'react-bootstrap';
+import { useState } from 'react';
+import i18n from './i18n';
 
-const LanguageSelector: React.FC = () => {
-  const { i18n } = useTranslation();
+const LanguageSelector = () => {
+  const [language, setLanguage] = useState(i18n.language || 'en');
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLanguage = event.target.value;
+    setLanguage(selectedLanguage);
+    i18n.changeLanguage(selectedLanguage);
   };
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle variant="light" id="dropdown-basic">
-        {i18n.language === 'tr' ? 'Türkçe' : 'English'}
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => changeLanguage('en')}>English</Dropdown.Item>
-        <Dropdown.Item onClick={() => changeLanguage('tr')}>Türkçe</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+    <select value={language} onChange={handleLanguageChange}>
+      <option value="en">English</option>
+      <option value="tr">Türkçe</option>
+    </select>
   );
 };
 

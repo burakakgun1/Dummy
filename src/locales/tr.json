@@ -27,10 +27,10 @@
     "threestar": "3 Yıldız",
     "fourstar": "4 Yıldız",
     "fivestar": "5 Yıldız",
-    "procutsRating":"Yıldız",
-    "productsComments":"Yorum",
-    "productsReviewerName":"Yazan Adı",
-    "productsDate":"Tarih"
+    "procutsRating": "Yıldız",
+    "productsComments": "Yorum",
+    "productsReviewerName": "Yazan Adı",
+    "productsDate": "Tarih"
   },
   "recipes": {
     "id": "ID",
@@ -39,7 +39,16 @@
     "searchRecipes": "Tarifleri ara",
     "name": "İsim",
     "ingredients": "Malzemeler",
-    "instructions": "Talimatlar"
+    "instructions": "Talimatlar",
+    "cuisine": "Mutfak",
+    "difficulty": "Zorluk",
+    "prepTime": "Hazırlık Süresi",
+    "cookTime": "Pişirme Süresi",
+    "servings": "Kişi Sayısı",
+    "calories": "Kalori",
+    "minutes": "Dakika",
+    "perServing": "Porsiyon Başına",
+    "tags": "Etiketler"
   },
   "cart": {
     "title": "Başlık",

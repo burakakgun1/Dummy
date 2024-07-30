@@ -39,7 +39,16 @@
     "searchRecipes": "Search recipes",
     "name": "Name",
     "ingredients": "Ingredients",
-    "instructions": "Instructions"
+    "instructions": "Instructions",
+    "cuisine": "Cuisine",
+    "difficulty": "Difficulty",
+    "prepTime": "Prep Time",
+    "cookTime": "Cook Time",
+    "servings": "Servings",
+    "calories": "Calories",
+    "minutes": "Minutes",
+    "perServing": "Per Serving",
+    "tags": "Tags"
   },
   "cart": {
     "title": "Title",

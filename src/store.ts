@@ -5,6 +5,7 @@ import productsReducer from "./Slices/productsSlice";
 import { notificationMiddleware } from "./middlewares/myMiddleware";
 import { useDispatch } from "react-redux";
 import cartReducer from "./Slices/cartSlice";
+import recipeDetailsReducer from "./Slices/recipesDetailsSlice"; 
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     recipes: recipesReducer,
     products: productsReducer,
     cart: cartReducer,
+    recipeDetails: recipeDetailsReducer, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(notificationMiddleware),

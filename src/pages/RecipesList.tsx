@@ -14,6 +14,7 @@ const RecipesList: React.FC = () => {
     handleRecordsPerPageChange,
     handleSort,
     getSortIcon,
+    handleRowClick,
   } = useRecipes();
 
   const totalPages = Math.ceil(recipesState.total / filters.page_size);
@@ -50,7 +51,10 @@ const RecipesList: React.FC = () => {
         </thead>
         <tbody>
           {recipesState.recipes.map((recipe) => (
-            <tr key={recipe.id} className="align-middle">
+            <tr key={recipe.id}
+            className="align-middle"
+            onClick={() => handleRowClick(recipe.id)}
+            style={{ cursor: "pointer" }}>
               <td>{recipe.id}</td>
               <td>{recipe.name}</td>
               <td>{recipe.ingredients.join(", ")}</td>
