@@ -36,7 +36,7 @@ const RecipesList: React.FC = () => {
 
       <Table bordered hover responsive className="shadow-sm">
         <thead className="bg-dark text-white">
-          <tr>
+          <tr className="align-middle">
             <th onClick={() => handleSort("id")}>{t("recipes.id")} {getSortIcon("id")}</th>
             <th onClick={() => handleSort("name")}>
               {t("recipes.name")} {getSortIcon("name")}

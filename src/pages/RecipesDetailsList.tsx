@@ -61,11 +61,11 @@ const RecipeDetailsList: React.FC = () => {
               </ListGroup.Item>
               <ListGroup.Item className="py-3">
                 <h5 className="mb-2">{t("recipes.instructions")}</h5>
-                <ol className="list-unstyled">
+                <ul className="list-unstyled">  
                   {recipe.instructions.map((instruction, index) => (
                     <li key={index} className="mb-1">{instruction}</li>
                   ))}
-                </ol>
+                </ul>
               </ListGroup.Item>
               <ListGroup.Item className="py-3">
                 <h5 className="mb-2">{t("recipes.tags")}</h5>
