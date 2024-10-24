@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { Middleware } from "redux";
 
 export const notificationMiddleware: Middleware<{}, any, any> =
-  (store) => (next) => (action: any) => {
+  () => (next) => (action: any) => {
     const status = action.payload?.status;
     if (status === 200) {
       console.log(`HTTP Status: ${status}`);
